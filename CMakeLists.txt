@@ -8,6 +8,7 @@ add_library(RayTracingInOneWeekend
     src/vec3.cpp
     src/color.cpp
     src/sphere.cpp
+    src/hittable_list.cpp
 )
 target_sources(RayTracingInOneWeekend
     PUBLIC
@@ -20,6 +21,7 @@ target_sources(RayTracingInOneWeekend
         include/ray.hpp
         include/hittable.hpp
         include/sphere.hpp
+        include/hittable_list.hpp
 )
 
 set_target_properties(RayTracingInOneWeekend PROPERTIES

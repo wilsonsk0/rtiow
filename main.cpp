@@ -1,21 +1,22 @@
 #include <cmath>
 #include <iostream>
+#include <memory>
 
 #include <color.hpp>
 #include <hittable.hpp>
+#include <hittable_list.hpp>
 #include <ostream>
 #include <ray.hpp>
 #include <sphere.hpp>
 #include <vec3.hpp>
 
-auto ray_color(ray const &r) -> color {
+auto ray_color(ray const &r, hittable const& world) -> color {
   static constexpr color red{1.0, 0.0, 0.0};
   static constexpr color white{1.0, 1.0, 1.0};
   static constexpr color blue{0.5, 0.7, 1.0};
-  static const sphere s(point3{0, 0, -1}, 0.5);
 
   hit_record rec;
-  if (s.hit(r, -INFINITY, INFINITY, rec)) {
+  if (world.hit(r, 0, INFINITY, rec)) {
       return 0.5 * (rec.normal + 1.0);
   }
 
@@ -29,6 +30,11 @@ int main() {
   auto aspect_ratio = 16.0 / 9.0;
   int image_width = 400;
   int image_height = std::max(static_cast<int>(image_width / aspect_ratio), 1);
+
+  // World
+  hittable_list world;
+  world.add(std::make_shared<sphere>(point3{0, 0, -1}, 0.5));
+  world.add(std::make_shared<sphere>(point3{0, -100.5, -1}, 100));
 
   // Camera
   auto focal_length = 1.0;
@@ -59,7 +65,7 @@ int main() {
       auto ray_direction = pixel_center - camera_center;
       ray r(camera_center, ray_direction);
 
-      auto pixel_color = ray_color(r);
+      auto pixel_color = ray_color(r, world);
       write_color(std::cout, pixel_color);
     }
   }

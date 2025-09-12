@@ -5,6 +5,7 @@
 #include <color.hpp>
 #include <hittable.hpp>
 #include <hittable_list.hpp>
+#include <interval.hpp>
 #include <ostream>
 #include <ray.hpp>
 #include <sphere.hpp>
@@ -16,7 +17,7 @@ auto ray_color(ray const &r, hittable const& world) -> color {
   static constexpr color blue{0.5, 0.7, 1.0};
 
   hit_record rec;
-  if (world.hit(r, 0, INFINITY, rec)) {
+  if (world.hit(r, interval{0, INFINITY}, rec)) {
       return 0.5 * (rec.normal + 1.0);
   }
 

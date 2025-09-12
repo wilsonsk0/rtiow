@@ -1,5 +1,6 @@
 #pragma once
 
+#include <interval.hpp>
 #include <ray.hpp>
 #include <vec3.hpp>
 
@@ -17,5 +18,5 @@ struct hit_record {
 
 struct hittable {
   virtual ~hittable() = default;
-  virtual auto hit(ray const &, double, double, hit_record &) const -> bool = 0;
+  virtual auto hit(ray const &, interval, hit_record &) const -> bool = 0;
 };

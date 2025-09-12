@@ -1,5 +1,6 @@
 #pragma once
 
+#include <interval.hpp>
 #include <hittable.hpp>
 #include <rtiow_export.hpp>
 
@@ -16,8 +17,8 @@ public:
     objects.push_back(object);
   }
 
-  RTIOW_EXPORT auto hit(ray const &r, double ray_tmin, double ray_tmax,
-                        hit_record &rec) const -> bool override;
+  RTIOW_EXPORT auto hit(ray const &r, interval ray_t, hit_record &rec) const
+      -> bool override;
 
 private:
   std::vector<std::shared_ptr<hittable>> objects;

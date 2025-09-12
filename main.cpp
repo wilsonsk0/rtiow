@@ -5,9 +5,28 @@
 #include <ray.hpp>
 #include <vec3.hpp>
 
+struct sphere {
+  point3 center;
+  double radius;
+};
+
+auto hit_sphere(sphere const &s, ray const &r) -> bool {
+  vec3 oc = s.center - r.origin();
+  auto a = dot(r.direction(), r.direction());
+  auto b = -2.0 * dot(r.direction(), oc);
+  auto c = dot(oc, oc) - s.radius * s.radius;
+  auto discriminant = b * b - 4 * a * c;
+  return (discriminant >= 0);
+}
+
 auto ray_color(ray const &r) -> color {
+  static constexpr color red{1.0, 0.0, 0.0};
   static constexpr color white{1.0, 1.0, 1.0};
   static constexpr color blue{0.5, 0.7, 1.0};
+  static constexpr sphere s{point3{0, 0, -1}, 0.5};
+
+  if (hit_sphere(s, r))
+    return red;
 
   vec3 unit_direction = unit_vector(r.direction());
   auto a = 0.5 * (unit_direction.y + 1.0);

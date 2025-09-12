@@ -10,6 +10,7 @@ add_library(RayTracingInOneWeekend
     src/sphere.cpp
     src/hittable_list.cpp
     src/interval.cpp
+    src/camera.cpp
 )
 target_sources(RayTracingInOneWeekend
     PUBLIC
@@ -25,6 +26,7 @@ target_sources(RayTracingInOneWeekend
         include/hittable_list.hpp
         include/common.hpp
         include/interval.hpp
+        include/camera.hpp
 )
 
 set_target_properties(RayTracingInOneWeekend PROPERTIES

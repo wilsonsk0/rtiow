@@ -7,6 +7,7 @@ include(GenerateExportHeader)
 add_library(RayTracingInOneWeekend 
     src/vec3.cpp
     src/color.cpp
+    src/sphere.cpp
 )
 target_sources(RayTracingInOneWeekend
     PUBLIC
@@ -17,6 +18,8 @@ target_sources(RayTracingInOneWeekend
         include/vec3.hpp
         include/color.hpp
         include/ray.hpp
+        include/hittable.hpp
+        include/sphere.hpp
 )
 
 set_target_properties(RayTracingInOneWeekend PROPERTIES

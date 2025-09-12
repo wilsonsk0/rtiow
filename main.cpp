@@ -2,37 +2,21 @@
 #include <iostream>
 
 #include <color.hpp>
+#include <hittable.hpp>
 #include <ostream>
 #include <ray.hpp>
+#include <sphere.hpp>
 #include <vec3.hpp>
-
-struct sphere {
-  point3 center;
-  double radius;
-};
-
-auto hit_sphere(sphere const &s, ray const &r) -> double {
-  vec3 oc = s.center - r.origin();
-  auto a = r.direction().length_squared();
-  auto h = dot(r.direction(), oc);
-  auto c = dot(oc, oc) - s.radius * s.radius;
-  auto discriminant = h * h - a * c;
-
-  if (discriminant < 0)
-      return -1;
-  return (h - std::sqrt(discriminant)) / a;
-}
 
 auto ray_color(ray const &r) -> color {
   static constexpr color red{1.0, 0.0, 0.0};
   static constexpr color white{1.0, 1.0, 1.0};
   static constexpr color blue{0.5, 0.7, 1.0};
-  static constexpr sphere s{point3{0, 0, -1}, 0.5};
+  static const sphere s(point3{0, 0, -1}, 0.5);
 
-  auto t = hit_sphere(s, r);
-  if (t > 0.0) {
-      vec3 N = unit_vector(r.at(t) - s.center);
-      return 0.5 * (N + 1.0);
+  hit_record rec;
+  if (s.hit(r, -INFINITY, INFINITY, rec)) {
+      return 0.5 * (rec.normal + 1.0);
   }
 
   vec3 unit_direction = unit_vector(r.direction());
